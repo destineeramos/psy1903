@@ -1,40 +1,53 @@
 
 
-let experiment = 'Stroop';
+// // let experiment = 'Stroop';
 
 
-let welcomeMessage = `
-Welcome to our ` + experiment + ` experiment! 
-Please read the instructions carefully.
-Welcome to our ` + experiment + ` experiment! 
-Please read the instructions carefully.
-Welcome to our ` + experiment + ` experiment! 
-Please read the instructions carefully.
-`;
+// // let welcomeMessage = `
+// // Welcome to our ` + experiment + ` experiment! 
+// // Please read the instructions carefully.
+// // Welcome to our ` + experiment + ` experiment! 
+// // Please read the instructions carefully.
+// // Welcome to our ` + experiment + ` experiment! 
+// // Please read the instructions carefully.
+// // `;
 
-// console.log(welcomeMessage)
-// console.log(typeof experiment); //string
-// console.log(experiment.charAt(1)); //S
+// // // console.log(welcomeMessage)
+// // // console.log(typeof experiment); //string
+// // // console.log(experiment.charAt(1)); //S
 
-let trialCountMax = 20;
-// console.log(typeof trialCountMax); //number
-// console.log(trialCountMax.charAt(0)) //
+// // let trialCountMax = 20;
+// // // console.log(typeof trialCountMax); //number
+// // // console.log(trialCountMax.charAt(0)) //
 
 
-let colors = ['red', 'green', 'blue'];
+// // let colors = ['red', 'green', 'blue'];
 
-//alert('Welcome to the ' + experiment + ' experiment!');
+// // //alert('Welcome to the ' + experiment + ' experiment!');
 
-trialCountMax = 40;
+// // trialCountMax = 40;
 
-//At the halfway point we will display a pause screen 
-let halfWayCount = trialCountMax / 2;
+// // //At the halfway point we will display a pause screen 
+// // let halfWayCount = trialCountMax / 2;
 
-//console.log(halfWayCount); //Expected: 20
+// // //console.log(halfWayCount); //Expected: 20
 
-let correct = false;
-console.log(typeof correct);
+// // let correct = false;
+// // console.log(typeof correct);
 
-console.log(10 > 15); //false Boolian value 
+// // console.log(10 > 15); //false Boolian value 
 
-console.log(10 <= 15); //true
+// // console.log(10 <= 15); //true
+
+// let answer = prompt('What is 1+1');
+// console.log(answer);
+
+// let answer2 = prompt('What is 9+1');
+// console.log(answer2);
+
+// console.log("Hello World");
+
+// let courseName = "Programming for Psychologists";
+// courseName = courseName.replace("Programming", "Coding");
+
+// console.log(courseName); // "Coding for Psychologists"
