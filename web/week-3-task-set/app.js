@@ -41,6 +41,7 @@ let num2 = document.getElementById('num2');
 //generate random numbers to display on page load 
 let randomNum1 = Math.floor(Math.random() * 10) + 1;
 let randomNum2 = Math.floor(Math.random() * 10) + 1;
+let answer = randomNum1 + randomNum2
 
 //Update elements on the page
 num1.innerHTML = randomNum1;
@@ -51,12 +52,24 @@ let response = prompt("What is " + randomNum1 + "+" + randomNum2 + '?');
 
 let feedback = '';
 
-if (response == randomNum1 + randomNum2) {
+if (response == answer) {
     feedback = 'Correct!';
-} else if (response == (randomNum1 + randomNum2) + 1 || response == (randomNum1 + randomNum2) - 1) {
+} else if (response == answer + 1 || response == answer - 1) {
     feedback = 'You were close!';
 } else {
     feedback = 'Incorrect.';
 }
 //create the alert for users 
-alert(feedback + ' The expected answer is ' + (randomNum1 + randomNum2));
+alert(feedback + ' The expected answer is ' + answer);
+
+
+// let age = prompt('How old are you?');
+// if (age < 12) {
+//     alert('Child');
+// }
+// if (age >= 12) {
+//     alert('Teenager');
+// }
+// if (age >= 18) {
+//     alert('Adult');
+// }
