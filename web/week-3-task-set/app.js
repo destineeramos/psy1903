@@ -34,42 +34,42 @@
 //let count = 8;
 //console.log(count % 2 == 0);
 
-//Identify elements on the page we will update 
-let num1 = document.getElementById('num1');
-let num2 = document.getElementById('num2');
+// //Identify elements on the page we will update 
+// let num1 = document.getElementById('num1');
+// let num2 = document.getElementById('num2');
 
-//generate random numbers to display on page load 
-let randomNum1 = Math.floor(Math.random() * 10) + 1;
-let randomNum2 = Math.floor(Math.random() * 10) + 1;
-let answer = randomNum1 + randomNum2
+// //generate random numbers to display on page load 
+// let randomNum1 = Math.floor(Math.random() * 10) + 1;
+// let randomNum2 = Math.floor(Math.random() * 10) + 1;
+// let answer = randomNum1 + randomNum2
 
-//Update elements on the page
-num1.innerHTML = randomNum1;
-num2.innerHTML = randomNum2;
+// //Update elements on the page
+// num1.innerHTML = randomNum1;
+// num2.innerHTML = randomNum2;
 
-//create the prompt for users 
-let response = prompt("What is " + randomNum1 + "+" + randomNum2 + '?');
+// //create the prompt for users 
+// let response = prompt("What is " + randomNum1 + "+" + randomNum2 + '?');
 
-let feedback = '';
+// let feedback = '';
 
-if (response == answer) {
-    feedback = 'Correct!';
-} else if (response == answer + 1 || response == answer - 1) {
-    feedback = 'You were close!';
-} else {
-    feedback = 'Incorrect.';
+// if (response == answer) {
+//     feedback = 'Correct!';
+// } else if (response == answer + 1 || response == answer - 1) {
+//     feedback = 'You were close!';
+// } else {
+//     feedback = 'Incorrect.';
+// }
+// //create the alert for users 
+// alert(feedback + ' The expected answer is ' + answer);
+
+
+let age = prompt('How old are you?');
+if (age < 12) {
+    alert('Child');
 }
-//create the alert for users 
-alert(feedback + ' The expected answer is ' + answer);
-
-
-// let age = prompt('How old are you?');
-// if (age < 12) {
-//     alert('Child');
-// }
-// if (age >= 12) {
-//     alert('Teenager');
-// }
-// if (age >= 18) {
-//     alert('Adult');
-// }
+if (age >= 12 && age <= 17) {
+    alert('Teenager');
+}
+if (age >= 18) {
+    alert('Adult');
+}
