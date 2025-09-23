@@ -6,14 +6,25 @@
 // console.log(celsiusToFahrenheit(-5)); // Expected output: 23
 
 
-function convertTemp(temp, convertTo) {
-    if (convertTo == 'c') {
-        return (temp - 32) / 1.8;
-    } else if (convertTo == 'f') {
-        return (temp * 1.8) + 32;
-    }
+// function convertTemp(temp, convertTo) {
+//     if (convertTo == 'c') {
+//         return (temp - 32) / 1.8;
+//     } else if (convertTo == 'f') {
+//         return (temp * 1.8) + 32;
+//     }
 
+// }
+
+// console.log(convertTemp(10, 'c')); // Expected output: -12.222222222222221
+// console.log(convertTemp(10, 'f')); // Expected output: 50
+
+function getWordLengths(words) {
+    let lengths = [];
+    for (let i = 0; i < words.length; i++) {
+        lengths.push(words[i].length);
+    }
+    return lengths;
 }
 
-console.log(convertTemp(10, 'c')); // Expected output: -12.222222222222221
-console.log(convertTemp(10, 'f')); // Expected output: 50
+let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
+console.log(getWordLengths(words)); // Expected output: [5, 6, 6, 4, 5]
