@@ -59,20 +59,73 @@
 // console.log(getOddNumbers([12, 45, 10, 11, 61])); // Expected output: [45, 11, 61]
 
 
-function filterNumbers(numbers, evenOrOdd) {
-    let result = [];
-    for (let number of numbers) {
-        if (evenOrOdd == 'even' && number % 2 == 0) {
-            result.push(number)
-        }
-        if (evenOrOdd == 'odd' && number % 2 == 1) {
-            result.push(number)
-        }
-    }
-    return result;
+// function filterNumbers(numbers, evenOrOdd) {
+//     let result = [];
+//     for (let number of numbers) {
+//         if (evenOrOdd == 'even' && number % 2 == 0) {
+//             result.push(number)
+//         }
+//         if (evenOrOdd == 'odd' && number % 2 == 1) {
+//             result.push(number)
+//         }
+//     }
+//     return result;
+// }
+
+// console.log(filterNumbers([1, 2, 3, 4, 5], 'even')); // Expected output: [2, 4]
+// console.log(filterNumbers([1, 2, 3, 4, 5], 'odd')); // Expected output: [1, 3, 5]
+// console.log(filterNumbers([45, 10, 11, 61], 'even')); // Expected output: [10]
+// console.log(filterNumbers([45, 10, 11, 61], 'odd')); // Expected output: [45, 11, 61]
+
+
+alert(`Welcome to the even/odd response time task. 
+
+You are about to see a series of numbers. 
+
+If the number you see is EVEN, type the letter "e".
+If the number you see is ODD, type the letter "o". 
+
+Please answer as quickly and accurately as possible.`)
+
+function getRandomNumber(min, max) {
+    let randomNumber = Math.floor(Math.random() * max) + min;
+    return randomNumber;
 }
 
-console.log(filterNumbers([1, 2, 3, 4, 5], 'even')); // Expected output: [2, 4]
-console.log(filterNumbers([1, 2, 3, 4, 5], 'odd')); // Expected output: [1, 3, 5]
-console.log(filterNumbers([45, 10, 11, 61], 'even')); // Expected output: [10]
-console.log(filterNumbers([45, 10, 11, 61], 'odd')); // Expected output: [45, 11, 61]
+let results = [];
+
+for (let i = 0; i < 5; i++) {
+    let number = getRandomNumber(1, 20);
+    let start1 = Date.now();
+    let response = prompt(`Number: ${number}. 
+
+Type the letter "e" for EVEN 
+
+Type the letter "o" for ODD`);
+    let correct = null
+    if (number % 2 == 0 && response == 'e') {
+        correct = true;
+    }
+    else if (number % 2 == 1 && response == 'o') {
+        correct = true;
+    }
+    else {
+        correct = false;
+    };
+    let end1 = Date.now();
+    let responseTime = (end1 - start1) / 1000;
+    let result = {
+        number: number,
+        response: response,
+        correct: correct,
+        responseTime: responseTime,
+    };
+    results.push(result);
+}
+
+console.log(results);
+
+alert('Thank you for your time')
+
+
+
