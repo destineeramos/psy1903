@@ -18,13 +18,29 @@
 // console.log(convertTemp(10, 'c')); // Expected output: -12.222222222222221
 // console.log(convertTemp(10, 'f')); // Expected output: 50
 
-function getWordLengths(words) {
-    let lengths = [];
-    for (let i = 0; i < words.length; i++) {
-        lengths.push(words[i].length);
+// function getWordLengths(words) {
+//     let lengths = [];
+//     for (let word of words) {
+//         lengths.push(word.length);
+//     }
+//     return lengths;
+// }
+
+// let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
+// console.log(getWordLengths(words)); // Expected output: [5, 6, 6, 4, 5]
+
+
+
+function getLongestWord(words) {
+    let longestWord = '';
+    for (let word of words) {
+        if (word.length > longestWord.length) {
+            longestWord = word;
+        }
     }
-    return lengths;
+    return longestWord;
 }
 
+
 let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
-console.log(getWordLengths(words)); // Expected output: [5, 6, 6, 4, 5]
+console.log(getLongestWord(words)); // Expected output: banana
