@@ -45,18 +45,34 @@
 // let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
 // console.log(getLongestWord(words)); // Expected output: banana
 
-function getOddNumbers(numbers) {
-    let oddNumber = [];
+// function getOddNumbers(numbers) {
+//     let oddNumber = [];
+//     for (let number of numbers) {
+//         if (number % 2 == 1) {
+//             oddNumber.push(number);
+//         }
+//     }
+//     return oddNumber;
+// }
+
+// console.log(getOddNumbers([1, 2, 3, 4, 5])); // Expected output: [1, 3, 5]
+// console.log(getOddNumbers([12, 45, 10, 11, 61])); // Expected output: [45, 11, 61]
+
+
+function filterNumbers(numbers, evenOrOdd) {
+    let result = [];
     for (let number of numbers) {
-        if (number % 2 == 1) {
-            oddNumber.push(number);
+        if (evenOrOdd == 'even' && number % 2 == 0) {
+            result.push(number)
+        }
+        if (evenOrOdd == 'odd' && number % 2 == 1) {
+            result.push(number)
         }
     }
-    return oddNumber;
+    return result;
 }
 
-console.log(getOddNumbers([1, 2, 3, 4, 5])); // Expected output: [1, 3, 5]
-console.log(getOddNumbers([12, 45, 10, 11, 61])); // Expected output: [45, 11, 61]
-
-
-
+console.log(filterNumbers([1, 2, 3, 4, 5], 'even')); // Expected output: [2, 4]
+console.log(filterNumbers([1, 2, 3, 4, 5], 'odd')); // Expected output: [1, 3, 5]
+console.log(filterNumbers([45, 10, 11, 61], 'even')); // Expected output: [10]
+console.log(filterNumbers([45, 10, 11, 61], 'odd')); // Expected output: [45, 11, 61]
