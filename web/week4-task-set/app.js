@@ -31,16 +31,32 @@
 
 
 
-function getLongestWord(words) {
-    let longestWord = '';
-    for (let word of words) {
-        if (word.length > longestWord.length) {
-            longestWord = word;
+// function getLongestWord(words) {
+//     let longestWord = '';
+//     for (let word of words) {
+//         if (word.length > longestWord.length) {
+//             longestWord = word;
+//         }
+//     }
+//     return longestWord;
+// }
+
+
+// let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
+// console.log(getLongestWord(words)); // Expected output: banana
+
+function getOddNumbers(numbers) {
+    let oddNumber = [];
+    for (let number of numbers) {
+        if (number % 2 == 1) {
+            oddNumber.push(number);
         }
     }
-    return longestWord;
+    return oddNumber;
 }
 
+console.log(getOddNumbers([1, 2, 3, 4, 5])); // Expected output: [1, 3, 5]
+console.log(getOddNumbers([12, 45, 10, 11, 61])); // Expected output: [45, 11, 61]
 
-let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
-console.log(getLongestWord(words)); // Expected output: banana
+
+
