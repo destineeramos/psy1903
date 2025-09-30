@@ -1,35 +1,49 @@
 let jsPsych = initJsPsych();
 
-let timeline = [];
-
 //Welcome 
 let welcomeTrial = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-    <h1> Welcome to the Math Response Time Task </h1>
-    <p> In this experiment... </p>
-    <p> Press SPACE to begin</p>
+    <h1> Welcome to the Math Response Time Task! </h1>
+    <p> In this experiment, you will be shown a series of math questions. </p>
+    <p>Please answer as quickly and accurately as possible.</p>
+    <p>Press SPACE to begin.</p> 
     `,
+
     choices: [' '],
 
 };
 
 timeline.push(welcomeTrial);
 
-let ageTrial = {
-    type: jsPsychSurveyHtmlForm,
-    preamble: '<p>How old are you?</p>',
-    html: `<p><input type='text' name='age' id='age'></p>`,
-    autofocus: 'age', // id of the field we want to auto-focus on when the trial starts
-    button_label: 'Submit Answer',
-    data: {
-        collect: true,
-    },
-    on_finish: function (data) {
-        data.age = data.response.age;
+//Trials 
+
+for (let condition of conditions) {
+    let mathTrial = {
+        type: jsPsychSurveyHtmlForm,
+        preamble: `<p>What is ${condition.num1} + ${condition.num2} </p>`,
+        html: `<p><input type='text' name='answer' id='answer'></p>`,
+        autofocus: 'answer', // id of the field we want to auto-focus on when the trial starts
+        button_label: 'Submit Answer',
+        data: {
+            collect: true,
+        },
+        on_finish: function (data) {
+            data.num1 = condition.num1;
+            data.num2 = condition.num2;
+            data.answer = data.response.answer;
+            data.correctAnswer = condition.correctAnswer;
+            if (data.response.answer == condition.correctAnswer) {
+                data.correct = true;
+            } else {
+                data.correct = false;
+            }
+
+        }
     }
+    timeline.push(mathTrial);
+
 }
-timeline.push(ageTrial);
 
 // Debrief
 let debriefTrial = {
