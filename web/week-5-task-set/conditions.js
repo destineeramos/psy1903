@@ -6,7 +6,7 @@ function getRandomNumber(min, max) {
     return randomNumber;
 }
 
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < 5; i++) {
     let num1 = getRandomNumber(1, 10)
     let num2 = getRandomNumber(1, 10)
     let correctAnswer = num1 + num2;
@@ -18,4 +18,4 @@ for (let i = 0; i < 6; i++) {
     })
 }
 
-console.log(conditions);
+// console.log(conditions);

@@ -2,47 +2,50 @@ let jsPsych = initJsPsych();
 
 //Welcome 
 let welcomeTrial = {
-    type: jsPsychHtmlKeyboardResponse,
+    type: jsPsychHtmlButtonResponse,
     stimulus: `
     <h1> Welcome to the Math Response Time Task! </h1>
     <p> In this experiment, you will be shown a series of math questions. </p>
     <p>Please answer as quickly and accurately as possible.</p>
-    <p>Press SPACE to begin.</p> 
+    <p>Press START to begin.</p> 
     `,
 
-    choices: [' '],
+    choices: ['START'],
 
 };
 
 timeline.push(welcomeTrial);
 
-//Trials 
 
 for (let condition of conditions) {
+    let altAnswer = getRandomNumber(2, 20);
+    if (altAnswer == condition.correctAnswer) {
+        altAnswer = altAnswer + 1;
+    }
+
+    let choices = jsPsych.randomization.shuffle([condition.correctAnswer, altAnswer]); //this code shuffles the order of the buttons and makes it so that the correct answer isn't always on the left
+
+
     let mathTrial = {
-        type: jsPsychSurveyHtmlForm,
-        preamble: `<p>What is ${condition.num1} + ${condition.num2} </p>`,
-        html: `<p><input type='text' name='answer' id='answer'></p>`,
-        autofocus: 'answer', // id of the field we want to auto-focus on when the trial starts
-        button_label: 'Submit Answer',
+        type: jsPsychHtmlButtonResponse,
+        stimulus: `<p>What is ${condition.num1} + ${condition.num2} </p>`,
+        choices: choices,
+        button_html: (choice, choice_index) => `<button class="jspsych-btn">${choice}</button>`, //this is the code that indicates what the buttons will say. 
         data: {
             collect: true,
         },
         on_finish: function (data) {
+            let selectedAnswer = choices[data.response];
             data.num1 = condition.num1;
             data.num2 = condition.num2;
-            data.answer = data.response.answer;
             data.correctAnswer = condition.correctAnswer;
-            if (data.response.answer == condition.correctAnswer) {
-                data.correct = true;
-            } else {
-                data.correct = false;
-            }
-
+            data.altAnswer = altAnswer;
+            data.answer = selectedAnswer;
+            data.correct = selectedAnswer == condition.correctAnswer;
         }
-    }
-    timeline.push(mathTrial);
+    };
 
+    timeline.push(mathTrial);
 }
 
 // Debrief
@@ -65,3 +68,25 @@ let debriefTrial = {
 timeline.push(debriefTrial);
 
 jsPsych.run(timeline);
+
+
+
+//Trials 
+
+// let randomNumbernew;
+
+// for (let condition of conditions) {
+//     randomNumbernew = getRandomNumber(2, 20);
+//     if (randomNumbernew == condition.correctAnswer) {
+//         randomNumbernew = randomNumbernew + 1;
+//     }
+//     // Use randomNumbernew here or save it
+// }
+
+// function shuffleArray(array) {
+//     for (let i = array.length - 1; i > 0; i--) {
+//         const j = getRandomNumber;
+//         [array[i], array[j]] = [array[j], array[i]];
+//     }
+//     return array;
+// }
