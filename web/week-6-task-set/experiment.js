@@ -16,7 +16,26 @@ let welcomeTrial = {
 
 timeline.push(welcomeTrial);
 
+//Survey Trial 
+let likert_scale = [
+    "Strongly Disagree",
+    "Disagree",
+    "Neutral",
+    "Agree",
+    "Strongly Agree"
+];
 
+let surveyTrial = {
+    type: jsPsychSurveyLikert,
+    questions: [
+        { prompt: "I enjoy solving math problems.", name: 'Enjoy', labels: likert_scale },
+        { prompt: "I find math easy.", name: 'Easy', labels: likert_scale },
+    ],
+};
+
+timeline.push(surveyTrial);
+
+//Math Trial 
 for (let condition of conditions) {
     // let choices = jsPsych.randomization.shuffle([condition.correctAnswer, condition.altAnswer]); //this code shuffles the order of the buttons and makes it so that the correct answer isn't always on the left
 
