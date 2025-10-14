@@ -21,7 +21,7 @@ let trial = {
 let welcomeTrial = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-    <h1 class = 'instructions'> Welcome to the Lexical Decision Task </h1>
+    <h1 class = 'instructions'> Welcome to the Lexical Decision Task... </h1>
     <p> You are about to see a series of charectars. </p>
     <p>Press F if the characters make up a word</p>
     <p>Press J if the characters do not make up a word</p> 
