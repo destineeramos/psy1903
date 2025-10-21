@@ -12,16 +12,34 @@ let timeline = [];
 
 // Words
 let positive = ['Freedom', 'Happy', 'Honest', 'Fairness', 'Joy', 'Trustworthy', 'Peace', 'Generous'];
+let posPractice = ['Brilliant', 'Cheerful', 'Comfort', 'Perfect'];
 let negative = ['Evil', 'Corrupt', 'Cowardly', 'Terrible', 'Nasty', 'Cruel', 'Dishonest', 'Greed'];
+let negPractice = ['Agony', 'Abuse', 'Mean', 'Hurt'];
 let democrat = ['Biden', 'DEI', 'Obama', 'Blue', 'Kamala', 'Medicaid', 'Welfare', 'Climate Change'];
+let demPractice = ['Liberal', 'Left-wing', 'Pro-choice', 'Gun Contorl'];
 let republican = ['GOP', 'Trump', 'Conservative', 'Red', 'MAGA', 'Right-Wing', 'NRA', 'Fox News'];
+let repPractice = ['Pro-life', 'Tax cuts', 'RNC', 'State Rights'];
 
 
 let positiveShuffled = jsPsych.randomization.shuffle(positive)
+let posPracticeShuffled = jsPsych.randomization.shuffle(posPractice)
 let negativeShuffled = jsPsych.randomization.shuffle(negative)
+let negPracticeShuffled = jsPsych.randomization.shuffle(negPractice)
 let democratShuffled = jsPsych.randomization.shuffle(democrat)
+let demPracticeShuffled = jsPsych.randomization.shuffle(demPractice)
 let republicanShuffled = jsPsych.randomization.shuffle(republican)
+let repPracticeShuffled = jsPsych.randomization.shuffle(repPractice)
 
+//Practice 1 
+
+let practice1 = [
+    ...posPracticeShuffled.slice(0, 2),
+    ...negPracticeShuffled.slice(0, 2),
+    ...demPracticeShuffled.slice(0, 2),
+    ...repPracticeShuffled.slice(0, 2),
+]
+
+let practice1Shuffled = jsPsych.randomization.shuffle(practice1)
 
 // Block 1
 let block1 = [
@@ -33,6 +51,17 @@ let block1 = [
 
 
 let block1Shuffled = jsPsych.randomization.shuffle(block1)
+
+//Practice 2 
+
+let practice2 = [
+    ...posPracticeShuffled.slice(0, 2),
+    ...negPracticeShuffled.slice(0, 2),
+    ...demPracticeShuffled.slice(0, 2),
+    ...repPracticeShuffled.slice(0, 2),
+]
+
+let practice2Shuffled = jsPsych.randomization.shuffle(practice2)
 
 
 // Block 2

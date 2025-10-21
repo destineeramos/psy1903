@@ -45,3 +45,8 @@
         transform: rotate(360deg);
     }
 }
+
+.highlight {
+    border: 1 px;
+    background-color: yellow;
+}

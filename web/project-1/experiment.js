@@ -1,4 +1,23 @@
 
+//Consent Trial 
+
+
+let consentTrial = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<h1> Welcome </h1>
+
+<p>The experiment you are about to complete is an educational exercise designed for PSY 1903: Programming for Psychological Scientists</em>; it is not intended as a true scientific experiment. </p>
+
+<p>No identifying information will be collected, data will not be shared beyond our class, and your participation is completely voluntary.</p>
+
+<p> If you have any questions, please reach out to Dr. Garth Coombs (garthcoombs@fas.harvard.edu), one of the head instructors of PSY 1903.</p>
+
+<p> If you agree to participate, press <span class= 'key'>SPACE</span> to continue. </p>`,
+    choices: [' ']
+
+}
+
+timeline.push(consentTrial)
 
 //INTRODUCTION
 let parties = ['Democrat', 'Republican', 'N/A']
@@ -7,8 +26,8 @@ let partySelectionTrial = {
     type: jsPsychHtmlButtonResponse,
     stimulus: `
        <h1>Instructions</h1>
-       <p>In this study, you will be asked to press different keys to categorize positive valence, negative valence, or politically charged words.</p>
-       <p>Your job is to decide as quickly and accurately as possible whether the word is positive valence, negative valence, Democrat-related, or Republican-related.</p>
+       <p>In this study, you will be asked to press different keys to categorize positive words, negative words, or politically charged words.</p>
+       <p>Your job is to decide as quickly and accurately as possible whether the word is positive, negative, Democrat-related, or Republican-related.</p>
        <p>Please indicate your political party below.</p>`,
     choices: parties,
     data: { collect: true },
@@ -30,12 +49,41 @@ let enterFullScreenTrial = {
 
 timeline.push(enterFullScreenTrial);
 
+
+// Practice 1 Instructions
+
+let practice1Instructions = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+       <p> <span class = 'highlight'> This is your first practice round. </span> </p>
+       <p> Use <strong>F</strong> for <strong>Positive / Democrat</strong> and <strong> J</strong > for <strong>Negative / Republican</strong>. </p>
+       <p>Press <span class= 'key'>SPACE</span> to begin.</p > `,
+    choices: [' ']
+};
+timeline.push(practice1Instructions)
+
+//Practice 1 Trial  
+
+for (let i = 0; i < practice1Shuffled.length; i++) {
+    let target1Practice = practice1Shuffled[i];
+    let block1Practice = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `
+    <span class='category1' > <strong>Positive / Democrat</strong> (press F)</span>
+    <span class='category2'> <strong>Negative / Republican</strong> (press J) </span>
+    <p class='word'>${target1Practice}</p>`,
+        choices: ['f', 'j'],
+    }
+    timeline.push(block1Practice)
+}
+
 // Block 1 Instructions
 
 let block1Instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-       Use <strong>F</strong> for <strong>Positive / Democrat</strong> and <strong> J</strong > for <strong>Negative / Republican</strong>.
+      <p> <span class = 'highlight' > You will now begin a real trial </span> </p>
+      <p> Use <strong>F</strong> for <strong>Positive / Democrat</strong> and <strong> J</strong > for <strong>Negative / Republican</strong>. </p>
        <p>Press <span class= 'key'>SPACE</span> to begin.</p > `,
     choices: [' ']
 };
@@ -73,12 +121,39 @@ for (let i = 0; i < block1Shuffled.length; i++) {
     timeline.push(block1Trial);
 }
 
+// Practice 2 Instructions
+
+let practice2Instructions = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+       <p> <span class = 'highlight'> This is your second practice round. </span> </p>
+   <p> This time, use <strong>F</strong> for <strong>Negative / Democrat</strong> and <strong>J</strong> for <strong>Positive / Republican</strong>. </p>
+   <p>Press <span class='key'>SPACE</span> to begin.</p>`,
+    choices: [' ']
+};
+timeline.push(practice2Instructions)
+
+//Practice 2 Trial  
+
+for (let i = 0; i < practice2Shuffled.length; i++) {
+    let target2Practice = practice2Shuffled[i];
+    let block2Practice = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `
+   <span class='category1'> <strong>Negative / Democrat</strong> (press F)
+    <span class='category2'> <strong>Positive / Republican</strong> (press J)
+    <p class='word'>${target2Practice}</p>`,
+        choices: ['f', 'j'],
+    }
+    timeline.push(block2Practice)
+}
 
 //Block 2 Instructions
 let block2Instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-   Now use <strong>F</strong> for <strong>Negative / Democrat</strong> and <strong>J</strong> for <strong>Positive / Republican</strong>.
+      <p> <span class = 'highlight' > You will now begin a real trial </span> </p>
+   <p> This time, use <strong>F</strong> for <strong>Negative / Democrat</strong> and <strong>J</strong> for <strong>Positive / Republican</strong>. </p>
    <p>Press <span class='key'>SPACE</span> to begin.</p>`,
     choices: [' ']
 };
