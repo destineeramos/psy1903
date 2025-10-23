@@ -8,6 +8,10 @@ let jsPsych = initJsPsych({
 
 
 let timeline = [];
+let block1Array = [];
+let block2Array = [];
+let allBlocks = [block1Array, block2Array];
+
 
 
 // Words

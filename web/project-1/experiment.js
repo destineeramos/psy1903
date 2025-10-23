@@ -55,12 +55,13 @@ timeline.push(enterFullScreenTrial);
 let practice1Instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-       <p> <span class = 'highlight'> This is your first practice round. </span> </p>
+       <p> <span class = 'highlight'> This is a practice round. </span> </p>
        <p> Use <strong>F</strong> for <strong>Positive / Democrat</strong> and <strong> J</strong > for <strong>Negative / Republican</strong>. </p>
        <p>Press <span class= 'key'>SPACE</span> to begin.</p > `,
     choices: [' ']
 };
-timeline.push(practice1Instructions)
+block1Array.push(practice1Instructions)
+
 
 //Practice 1 Trial  
 
@@ -74,7 +75,7 @@ for (let i = 0; i < practice1Shuffled.length; i++) {
     <p class='word'>${target1Practice}</p>`,
         choices: ['f', 'j'],
     }
-    timeline.push(block1Practice)
+    block1Array.push(block1Practice)
 }
 
 // Block 1 Instructions
@@ -88,7 +89,7 @@ let block1Instructions = {
     choices: [' ']
 };
 
-timeline.push(block1Instructions)
+block1Array.push(block1Instructions)
 
 // Block 1 Trials
 
@@ -118,7 +119,7 @@ for (let i = 0; i < block1Shuffled.length; i++) {
         }
     }
 
-    timeline.push(block1Trial);
+    block1Array.push(block1Trial);
 }
 
 // Practice 2 Instructions
@@ -126,12 +127,12 @@ for (let i = 0; i < block1Shuffled.length; i++) {
 let practice2Instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-       <p> <span class = 'highlight'> This is your second practice round. </span> </p>
+       <p> <span class = 'highlight'> This is a practice round. </span> </p>
    <p> This time, use <strong>F</strong> for <strong>Negative / Democrat</strong> and <strong>J</strong> for <strong>Positive / Republican</strong>. </p>
    <p>Press <span class='key'>SPACE</span> to begin.</p>`,
     choices: [' ']
 };
-timeline.push(practice2Instructions)
+block2Array.push(practice2Instructions)
 
 //Practice 2 Trial  
 
@@ -145,7 +146,7 @@ for (let i = 0; i < practice2Shuffled.length; i++) {
     <p class='word'>${target2Practice}</p>`,
         choices: ['f', 'j'],
     }
-    timeline.push(block2Practice)
+    block2Array.push(block2Practice)
 }
 
 //Block 2 Instructions
@@ -158,7 +159,7 @@ let block2Instructions = {
     choices: [' ']
 };
 
-timeline.push(block2Instructions)
+block2Array.push(block2Instructions)
 
 
 // Block 2 Trials
@@ -188,9 +189,14 @@ for (let i = 0; i < block2Shuffled.length; i++) {
         }
     }
 
-    timeline.push(block2Trial)
+    block2Array.push(block2Trial)
 
 }
+
+//RANDOMIZE TRIALS
+let shuffledBlocks = jsPsych.randomization.shuffle(allBlocks);
+timeline.push(shuffledBlocks)
+
 
 // Save Results 
 let resultsTrial = {
