@@ -1,0 +1,24 @@
+---
+title: "Week 10 Task Set"
+author: "Destinee Ramos"
+format: html
+execute:
+  echo: true
+  warning: true
+  message: true
+---
+
+#### Q1: Load and Inspect Data ------------------------------------
+
+```{r}
+## Load the saved dataset
+experiment_data <- readRDS("../data/raw/experiment_data.rds")
+
+## Take a quick look at the first few rows
+head(experiment_data)
+
+## Check the structure of the dataset
+str(experiment_data)
+#deleteme
+
+```
