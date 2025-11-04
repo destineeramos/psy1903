@@ -51,3 +51,10 @@
 // courseName = courseName.replace("Programming", "Coding");
 
 // console.log(courseName); // "Coding for Psychologists"
+
+//Errors and AI demo
+//console.log(12 % 2 == 0); //  true
+
+
+
+

@@ -76,8 +76,8 @@ let resultsTrial = {
         `,
     on_start: function () {
         let prefix = 'week-6-task-set';
-        let dataPipeExperimentId = 'your-experiment-id-here';
-        let forceOSFSave = false;
+        let dataPipeExperimentId = 'E7vltrVdpPNB';
+        let forceOSFSave = true;
 
         let data = jsPsych.data
             .get()

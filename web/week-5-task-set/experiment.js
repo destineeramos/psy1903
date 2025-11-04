@@ -68,7 +68,7 @@ let debriefTrial = {
 timeline.push(debriefTrial);
 
 jsPsych.run(timeline);
-
+//curly brackets = object
 
 
 //Trials 
