@@ -189,12 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(experiment_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  subject_id  rt congruent   condition age
-1          1 573     FALSE     control  60
-2          2  NA     FALSE incongruent  38
-3          3 424     FALSE     control  21
-4          4 436     FALSE     control  52
-5          5 540     FALSE     control  19
-6          6 612     FALSE incongruent  40</code></pre>
+1          1 573     FALSE     control  43
+2          2  NA     FALSE incongruent  65
+3          3 424     FALSE     control  40
+4          4 436     FALSE     control  45
+5          5 540     FALSE     control  58
+6          6 612     FALSE incongruent  50</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -203,12 +203,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(experiment_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  subject_id  rt congruent   condition age
-1          1 573     FALSE     control  56
+1          1 573     FALSE     control  40
 2          2  NA     FALSE incongruent  31
-3          3 424     FALSE     control  51
-4          4 436     FALSE     control  23
-5          5 540     FALSE     control  29
-6          6 612     FALSE incongruent  37</code></pre>
+3          3 424     FALSE     control  62
+4          4 436     FALSE     control  43
+5          5 540     FALSE     control  40
+6          6 612     FALSE incongruent  50</code></pre>
 </div>
 </div>
 <p>###Q4: Control Structures on Data Frames —————————</p>
@@ -222,12 +222,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(experiment_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  subject_id  rt congruent   condition age rt_category_loop
-1          1 573     FALSE     control  56             Slow
+1          1 573     FALSE     control  40             Slow
 2          2  NA     FALSE incongruent  31          Unknown
-3          3 424     FALSE     control  51             Fast
-4          4 436     FALSE     control  23             Fast
-5          5 540     FALSE     control  29             Slow
-6          6 612     FALSE incongruent  37             Slow</code></pre>
+3          3 424     FALSE     control  62             Fast
+4          4 436     FALSE     control  43             Fast
+5          5 540     FALSE     control  40             Slow
+6          6 612     FALSE incongruent  50             Slow</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -237,12 +237,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(experiment_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  subject_id  rt congruent   condition age rt_category_loop rt_category_vec
-1          1 573     FALSE     control  56             Slow            Slow
+1          1 573     FALSE     control  40             Slow            Slow
 2          2  NA     FALSE incongruent  31          Unknown         Unknown
-3          3 424     FALSE     control  51             Fast            Fast
-4          4 436     FALSE     control  23             Fast            Fast
-5          5 540     FALSE     control  29             Slow            Slow
-6          6 612     FALSE incongruent  37             Slow            Slow</code></pre>
+3          3 424     FALSE     control  62             Fast            Fast
+4          4 436     FALSE     control  43             Fast            Fast
+5          5 540     FALSE     control  40             Slow            Slow
+6          6 612     FALSE incongruent  50             Slow            Slow</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -367,6 +367,29 @@ condition     FALSE TRUE
 </div>
 <p>Q7.2 AI Prompt</p>
 <p>Using Chat to debug was both good and bad. It did point out and digest the entire error message, which was very helpful. It also walked me through a few different solutions I could try based on what I actually wanted to accomplish with this code. I wish that it had included how to check using the str() function, like what was suggested in the class notes (so I verified this myself). AI gives you the code you can use to fix the error, however, they don’t really help you understand the solutions step by step. I inputted the fixed code into R and it did work, however, it didn’t really tell me why this code worked. Using ” ~ ” and FUN = mean where completely new to me and it didn’t explain what these were doing, it just fixed the issue and worked.</p>
+</section>
+<section id="q8-saving-and-reloading-objects" class="level4">
+<h4 class="anchored" data-anchor-id="q8-saving-and-reloading-objects">Q8: Saving and Reloading Objects —————————–</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Q8.1 Cleaned Dataset</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(experiment_data, <span class="st">"../data/cleaned/experiment_data.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(experiment_data, <span class="st">"../data/cleaned/experiment_data.rds"</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">"../data/cleaned"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "experiment_data.csv" "experiment_data.rds" "objects.RData"      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Q8.2 Multiple Objects</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save multiple objects together</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(experiment_data, subject_means, <span class="at">file =</span> <span class="st">"../data/cleaned/objects.RData"</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Clear the environment</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Reload them later</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/cleaned/objects.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 
 </main>

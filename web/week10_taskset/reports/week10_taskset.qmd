@@ -184,6 +184,30 @@ aggregate(rt ~ affiliation, data = iat_data, FUN = mean)
 
 Q7.2 AI Prompt
 
-Using Chat to debug was both good and bad. It did point out and digest the entire error message, which was very helpful. It also walked me through a few different solutions I could try based on what I actually wanted to accomplish with this code. I wish that it had included how to check using the str() function, like what was suggested in the class notes (so I verified this myself). AI gives you the code you can use to fix the error, however, they don't really help you understand the solutions step by step. I inputted the fixed code into R and it did work, however, it didn't really tell me why this code worked. Using " ~ " and  FUN = mean where completely new to me and it didn't explain what these were doing, it just fixed the issue and worked.  
+Using Chat to debug was both good and bad. It did point out and digest the entire error message, which was very helpful. It also walked me through a few different solutions I could try based on what I actually wanted to accomplish with this code. I wish that it had included how to check using the str() function, like what was suggested in the class notes (so I verified this myself). AI gives you the code you can use to fix the error, however, they don't really help you understand the solutions step by step. I inputted the fixed code into R and it did work, however, it didn't really tell me why this code worked. Using " ~ " and  FUN = mean where completely new to me and it didn't explain what these were doing, it just fixed the issue and worked.
+
+
+#### Q8: Saving and Reloading Objects -----------------------------
+
+```{r}
+
+##Q8.1 Cleaned Dataset
+
+write.csv(experiment_data, "../data/cleaned/experiment_data.csv", row.names = FALSE)
+saveRDS(experiment_data, "../data/cleaned/experiment_data.rds")
+list.files("../data/cleaned")
+
+##Q8.2 Multiple Objects
+
+## Save multiple objects together
+save(experiment_data, subject_means, file = "../data/cleaned/objects.RData")
+
+## Clear the environment
+rm(list = ls())
+
+## Reload them later
+load("../data/cleaned/objects.RData")
+
+```
 
 
