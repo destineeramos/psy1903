@@ -56,5 +56,134 @@ classify_rt(function_test)
 classify_rt(experiment_data$rt)
 
 ```
+#### Q3: Loops vs Vectorization ------------------------------------------------
+
+```{r}
+##Q3.1 New Columns
+experiment_data$age <- NA
+
+##Q3.2 Loop Version
+for (i in 1:nrow(experiment_data)) {
+  experiment_data$age[i] <- getRandomNumber(18, 65, 1)
+}
+
+head(experiment_data)
+```
+
+
+```{r}
+#Q3.3 Vectorized Version
+experiment_data$age <- sample(18:65, nrow(experiment_data), replace = TRUE)
+head(experiment_data)
+```
+
+###Q4: Control Structures on Data Frames ---------------------------
+
+```{r}
+##Q4.1 Loop
+
+experiment_data$rt_category_loop <- NA 
+for(i in 1:nrow(experiment_data)) {
+    experiment_data$rt_category_loop[i] <- classify_rt(experiment_data$rt[i])
+}
+head(experiment_data)
+
+```
+
+```{r}
+##Q4.2 Vectorized Version
+experiment_data$rt_category_vec <- NA
+experiment_data$rt_category_vec <- classify_rt(experiment_data$rt)
+head(experiment_data)
+
+```
+
+```{r}
+
+table(loop = experiment_data$rt_category_loop,
+      vec  = experiment_data$rt_category_vec,
+      useNA = "ifany")
+
+```
+
+#### Q5: Debugging Functions -----------------------------
+
+```{r}
+## Create Buggy Function
+
+#flag_fast <- function(rt_vector, threshold = 500) {
+#  rt_vector < threshold
+#}
+
+#flag_fast(experiment_data$rt)
+
+#rm(threshold)
+
+#flag_fast(experiment_data$rt)
+
+```
+
+#### Q6: Debugging Tools in Action -----------------------------
+
+```{r}
+##Q6.1 Reproduce the Issue
+
+subject_means <- tapply(experiment_data$rt,
+                        experiment_data$condition,
+                        mean)
+print(paste("Mean for control:", subject_means["control"]))
+print(paste("Mean for incongruent:", subject_means["incongruent"]))
+
+```
+
+```{r}
+##Q6.2 Investigate Missingness
+
+# How many NAs overall?
+sum(is.na(experiment_data$rt))
+
+# How many NAs by condition?
+tapply(is.na(experiment_data$rt), experiment_data$condition, sum)
+
+# Optional: quick sanity checks
+summary(experiment_data$rt)
+with(experiment_data, table(condition, is.na(rt)))
+
+```
+
+```{r}
+##Q6.3 Fix the Calculation
+
+subject_means <- tapply(experiment_data$rt,
+                        experiment_data$condition,
+                        mean, na.rm = TRUE)
+print(paste("Mean for control:", subject_means["control"]))
+print(paste("Mean for incongruent:", subject_means["incongruent"]))
+
+print(subject_means)
+
+```
+
+#### Q7: Using AI for Debugging or Refactoring -----------------------
+
+```{r}
+
+iat_data <- data.frame(
+  participant = 1:5,
+  affiliation = c("dem", "rep", "dem", "rep", "dem"),
+  rt = c(220, 350, 430, 440, 225)
+)
+
+##mean(iat_data$condition)
+
+str(iat_data)
+aggregate(rt ~ affiliation, data = iat_data, FUN = mean)
+
+
+```
+
+Q7.2 AI Prompt
+
+Using Chat to debug was both good and bad. It did point out and digest the entire error message, which was very helpful. It also walked me through a few different solutions I could try based on what I actually wanted to accomplish with this code. I wish that it had included how to check using the str() function, like what was suggested in the class notes (so I verified this myself). AI gives you the code you can use to fix the error, however, they don't really help you understand the solutions step by step. I inputted the fixed code into R and it did work, however, it didn't really tell me why this code worked. Using " ~ " and  FUN = mean where completely new to me and it didn't explain what these were doing, it just fixed the issue and worked.  
 
 

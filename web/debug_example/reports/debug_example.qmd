@@ -1,5 +1,41 @@
 ---
-title: "debug_example"
+title: "Week 10 Debugging and Refactoring"
+author: "Destinee Ramos"
 format: html
+execute:
+  echo: true
+  warning: true
+  message: true
 ---
+
+```{r}
+set.seed(1903)
+
+iat_data <- data.frame(
+  subject_id = 1:40,
+  rt = round(rnorm(40, mean = 520, sd = 120)),
+  congruent = sample(c(TRUE, FALSE), 40, replace = TRUE),
+  condition = sample(c("control", "incongruent"), 40, replace = TRUE)
+)
+
+# Randomly assign two NA values in the rt column
+iat_data$rt[sample(1:nrow(iat_data), 2)] <- NA
+
+# Save for later use
+saveRDS(iat_data, file = "../data/raw/iat_data.rds")
+
+```
+
+```{r}
+calculate_group_means <- function(data) {
+  #browser()  # Pause here to explore
+  result <- tapply(data$rt, data$condition, mean, na.rm = TRUE)
+  return(result)
+}
+
+calculate_group_means(iat_data)
+
+traceback()
+
+```
 
