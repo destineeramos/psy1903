@@ -1,0 +1,85 @@
+---
+title: "Week 11 Task Set"
+name: "Destinee Ramos" 
+format: html
+execute:
+  echo: true
+  warning: true
+  message: false
+---
+```{r}
+library(jsonlite)
+library(here)
+
+# setwd("~/Desktop/psy1903/web/w11_taskset") # Update to your path
+
+# file_path  <- "psy1903/web/npt_project/data/raw/npt-experiment-2025-11-05-12-34-56.csv"
+# subject_id <- sub("\\.csv$", "", basename(file_path))
+# getwd()
+# here::here()
+
+
+source(here::here("scripts", "compute_rt_if_missing.R"))
+source(here::here("scripts", "summarize_behavior.R"))
+source(here::here("scripts", "score_questionnaire.R"))
+source(here::here("scripts", "process_participant.R"))
+
+```
+
+
+#### Concept Check -------------------------------
++ Q1: What does source("scripts/score_questionnaire.R") enable in your workflow?
+    + Using source allows us to separate our code in a modular manner and create different functions in different scripts. This helps make our code more reproducible for others and tells R where everything lives. 
++ Q2: Why is modularizing your code into multiple scripts considered a best practice?
+    + So that each function has a place to live and your code is easier to debug. Separating everything allows you to easily target and change a piece of your code, without getting lost in the weeds. Its also easier for others to reproduce your code if its nicely organized modularly. 
++ Q3: What information does traceback() provide after an error?
+    + Traceback helps us identify which part of our code is providing a given error. If you run it right after you get an error, you can see where exactly the error happened. 
++ Q4: When you read multiple .csv files into R, how can using str() or names() before combining them help you prevent or debug errors later in your workflow?
+    + This is important in order to make sure that the functions we're using matches the type of data and the names of the data we are using. 
++ Q5: When you run source("scripts/process_participant.R") inside your Quarto document, nothing prints in the Console. How can you check whether your function actually loaded correctly into your environment, and why is this step important before calling it in later code?
+    +You can check using ls() in the console to list all of the objects in the environment. You can also use file.exists(). This allows you to check whether your function actually loaded without actually calling it in your script. 
+
+We filter RTs from 300-900 ms in this task because this is the span of a reasonable response to the stimuli we're providing. Because we used a function to do this, we can easily adjust this for easier or harder tasks (e.g. filtering RTs to 1000ms-1500ms). By having a filter, we filter out accidental clicks that are too quick and people who took too long/stepped away from the task. We compute RTs for correct trials only because in order to capture the cognitive process (in this case, for a Stroop task its something like emotional reactivity), incorrect trials are not what we're interested in. We want to know their processing when they do the task and get the correct answer. 
+
+#### Q9 Final Report -------------------------------
+
+Q1: A short paragraph describing your workflow
+
++ The end goal of this workflow was to create a clean data file with all participants' subject_ID mean_accuracy, rt_correct, and esq_sum. I did this by getting paths to all of the individual CSV files, and then extracting subject IDs. Next, I inspected the data and then created a function to deal with mising rt values (compute_rt_if_missing). After this, I wrote  score_questionnaire(json_string) function that allowed me to score the json_string at the end of the data and get a mean for the participants' survey responses (accounting for reverse scored items). After this, I created a one row data frame for one participant with subject_id, mean_accuracy, mean_rt_correct, esq_sum (df_clean). To do this, I had to call all of my "helpers" (e.g. compute_rt_if_missing(), summarize_behavior(), and score_questionnaire()) in my process participant function. 
+
++ Finally, I used participant_rows <- lapply(file_list, process_participant), to loop over every file in file_list (each participant’s raw CSV) and run process_participant() on each one. This looks in the participant’s data, computes their reaction time and accuracy summaries, scores their questionnaire, and returns a one-row summary data frame. Afterwards, I used study_level <- do.call(rbind, participant_rows) to stack all those one-row data frames together into a single large data frame (study_level). 
+
+
+Q2. Explain how you handled missing data across your workflow (for example, true-missing vs. recoverable RTs) and why those decisions improve reproducibility and data quality. 
+
++ In this workflow, I distinguished between true-missing and recoverable RTs. If RTs were recoverable (missing but could be computed from other rt columns), I used my compute_rt_if_missing() function. If the other rt columns were also missing, the values were left as true NA. I also excluded NA values when computing means. This helped my results stay reproducible and maintain consistency across participants, as I documented every missing I added and dropped along the way. 
+
+
+
+```{r}
+# Prefer a pattern to avoid accidentally pulling other CSVs
+file_list <- list.files(here::here("data", "raw"), pattern = "^est-experiment-.*\\.csv$", full.names = TRUE)
+file_list
+length(file_list)
+
+#### 2) Apply our participant processor ---------------------------------------
+participant_rows <- lapply(file_list, process_participant)
+names(participant_rows[[1]])
+names(participant_rows[[2]])
+
+#### 3) Combine into one study-level data frame --------------------------------
+
+study_level <- do.call(rbind, participant_rows)
+
+print(study_level)
+
+
+```
+
+
+The mean RT across the study is `r mean(study_level$mean_rt_correct, na.rm = TRUE)` ms, and the mean accuracy is `r mean(study_level$mean_accuracy, na.rm = TRUE)`.
+
+
+
+
+
