@@ -22,7 +22,10 @@ process_participant <- function(file_path) {
     subject_id = subject_id,
     mean_accuracy = behavior$mean_accuracy,
     mean_rt_correct = behavior$mean_rt_correct,
-    esq_sum = esq_sum
+    esq_sum = esq_sum, 
+    mean_positive_rt = behavior$mean_positive_rt,
+    mean_negative_rt = behavior$mean_negative_rt,
+    mean_neutral_rt = behavior$mean_neutral_rt
   )
   ##Inspect
   str(df_clean)
