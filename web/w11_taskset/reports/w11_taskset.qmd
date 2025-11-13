@@ -79,11 +79,10 @@ print(study_level)
 
 The mean RT across the study is `r mean(study_level$mean_rt_correct, na.rm = TRUE)` ms, and the mean accuracy is `r mean(study_level$mean_accuracy, na.rm = TRUE)`.
 
+
 The mean RT for the positive condition is `r mean(study_level$mean_rt_positive, na.rm = TRUE)` ms
 The mean RT for the negative condition is `r mean(study_level$mean_rt_negative, na.rm = TRUE)` ms
 The mean RT for the neutral condition is `r mean(study_level$mean_neutral_rt, na.rm = TRUE)` ms
-
-
 
 
 
