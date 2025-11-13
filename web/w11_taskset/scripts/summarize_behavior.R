@@ -12,8 +12,8 @@ summarize_behavior <- function(data, rt_min = 300, rt_max = 900) {
     mean_rt_correct   = mean_rt_correct,
     mean_accuracy = mean_accuracy, 
     mean_positive_rt = mean_positive_rt, 
-    mean_negative_rt = mean_positive_rt,
-    mean_neutral_rt = mean_positive_rt
+    mean_negative_rt = mean_negative_rt,
+    mean_neutral_rt = mean_neutral_rt
   )
   
   return(behavior)

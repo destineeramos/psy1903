@@ -7,6 +7,7 @@ execute:
   warning: true
   message: false
 ---
+
 ```{r}
 library(jsonlite)
 library(here)
@@ -80,10 +81,11 @@ print(study_level)
 The mean RT across the study is `r mean(study_level$mean_rt_correct, na.rm = TRUE)` ms, and the mean accuracy is `r mean(study_level$mean_accuracy, na.rm = TRUE)`.
 
 
-The mean RT for the positive condition is `r mean(study_level$mean_rt_positive, na.rm = TRUE)` ms
-The mean RT for the negative condition is `r mean(study_level$mean_rt_negative, na.rm = TRUE)` ms
-The mean RT for the neutral condition is `r mean(study_level$mean_neutral_rt, na.rm = TRUE)` ms
++ The mean RT for the positive condition is `r mean(study_level$mean_positive_rt, na.rm = TRUE)` ms
 
++ The mean RT for the negative condition is `r mean(study_level$mean_negative_rt, na.rm = TRUE)` ms
 
++ The mean RT for the neutral condition is `r mean(study_level$mean_neutral_rt, na.rm = TRUE)` ms
 
+I'm noticing that the mean rt for neutral words is the fastest (549 m/s), and the mean RT for the positive words is the second fastest (581 m/s), while the negative words elicited the slowest reaction in participants. This makes sense, as it takes people longer to react to emotionally charged words, and negative may have the strongest emotional reaction (as opposed to neutral words, that don't elicit any emotion) 
 
