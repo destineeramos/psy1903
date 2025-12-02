@@ -13,7 +13,7 @@ p_load("httr", "jsonlite", "fs", "stringr", "lubridate")
 ## so keep it private and do not share it publicly.
 
 ## TOKEN <- "paste_your_token_here"
-TOKEN <- "SzqxYX88znq4U5Epy5JV3t8NsH88RWLygXhLq1gi6hj5HWiEfBeQ4ORNaikCObqohPZL8G"
+TOKEN <- "nq9xIXoyAtBQ9VdnqXgZ6iYJT5DP6tSfp7alW4KbtyyvgldBbWWTK8egmtOO1FKOVOeDQh"
 
 ## 2. Project Node ID (location of your data)
 ## Each OSF project or component has a unique 5-character node ID.
@@ -23,7 +23,7 @@ TOKEN <- "SzqxYX88znq4U5Epy5JV3t8NsH88RWLygXhLq1gi6hj5HWiEfBeQ4ORNaikCObqohPZL8G
 ## or component. Copy and paste that string below.
 
 ## NODE <- "paste_your_node_here"
-NODE <- "avm5d"
+NODE <- "nc4js"
 
 ## Only download files matching this prefix
 PREFIX <- "lexical-decision"
