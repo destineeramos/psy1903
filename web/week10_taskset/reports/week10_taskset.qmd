@@ -49,6 +49,7 @@ classify_rt <- function(rt, threshold = 500) {
  )
    return(category)
 }
+
  
 ##Testing the function 
 function_test <- c(100,200,300,500)
