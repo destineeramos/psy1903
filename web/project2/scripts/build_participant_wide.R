@@ -22,6 +22,11 @@ build_participant_wide <- function() {
   
   if (length(files) == 0L) stop("No CSV files found in data/raw")
   # 
+  
+  
+  ## I changed this in order to get rid of the for loop. In this case, the for loop is unnecessary
+  ## because we can use lappy and apply important and process to every single file, automatically "looping"
+  ## through. 
   # rows <- list()
   # for (i in seq_along(files)) {
   #   file_name <- files[i]

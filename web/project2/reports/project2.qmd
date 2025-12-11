@@ -309,7 +309,8 @@ histogram <- ggplot(participant_wide, aes(x = d_score)) +
   geom_vline(xintercept = d_mean, color = "red") +
   geom_vline(xintercept = d_mean - d_sd, color = "blue", linetype = "dashed") +
   geom_vline(xintercept = d_mean + d_sd, color = "blue", linetype = "dashed") +
-  labs(x = "Mean D-Score", y = "Count")
+  labs(x = "Mean D-Score", y = "Count") + 
+   theme_classic() 
 }
 
 print(histogram)
@@ -362,7 +363,7 @@ barplot <- ggplot(mean_data, aes(x = condition, y = mean_rt, fill = condition)) 
   geom_col(fill = "steelblue", width = 0.5) +
   geom_errorbar(aes(ymin = mean_rt - se, ymax = mean_rt + se), width = 0.2) +
   labs(x = "Condition", y = "Mean RT (ms)", fill = "Condition") +
-  theme_classic() 
+  theme_minimal() 
 
 print(barplot)
 ```
