@@ -71,13 +71,83 @@ AI Optimization
 
 
 Ideas AI gave for unedited project 
-+ 
-+ 
-+ 
++ Always use here:here and standardize file paths. Points out situations where I use relative paths, instead of absolute paths. This breaks the code if someone else trys to reproduce it. By using only absolute paths (here:here), it helps reduce path-related errors (which Chat says is "the #1 beginner issue")
++ Instead of repeated subsetting, use mini functions to acheive the same goals.This helps remove repetitve code across files and makes the code more readable for beginners. Chat recommends instead of doing code like this 
+```{r}
+valid <- data[data$rt >= rt_min & data$rt <= rt_max, ]
+```
 
+to do this instead 
 
-Ideas AI gave for refactored version 
-+ 
+```{r}
+subset_valid_rt <- function(df, rt_min, rt_max) {
+  df[df$rt >= rt_min & df$rt <= rt_max, , drop = FALSE]
+}
+```
+
++ Use lapply instead of manual for loops. Chat recommends to use the apply family (e.g. lapply) instead of for loops to make the code shorter, less error-prone, and more consistent. 
+
+It recommends that instead of this 
+```{r}
+if (FALSE) {
+  for (file in files) {
+  df <- read.csv(file)
+  summary <- summarize_behavior(df)
+  result_list[[file]] <- summary
+}
+}
+```
+
+Use this: 
+```{r}
+if (FALSE) {
+  summaries <- lapply(files, function(path) {
+  df <- read.csv(path)
+  validate_iat_df(df)
+  summarize_behavior(df)
+})
+summaries_df <- do.call(rbind, summaries)
+}
+```
+
+Ideas AI gave for re factored version 
+
++ Move all of the different warnings and checks into one function. This helps a beginner looking at your code to see exactly what checks are done throughout without gong and searching for them. It also ensure no duplication and allows you to easily add checks in one place. 
+
+Instead of this: 
+
+```{r}
+##I currently duplicate many checks:
+if (FALSE) {
+if (!is.numeric(data$rt)) { ... }
+if (!all(required_cols %in% names(df))) { ... }
+if (!is.logical(data$correct)) { ... }
+}
+```
+
+Chat recommends that hte function be created like this: 
+```{r}
+##In a file called validate_task_df.R:
+
+if (FALSE) {
+validate_task_df <- function(df) {
+  required <- c("trialType","block","rt","response",
+                "expectedCategory","expectedCategoryAsDisplayed",
+                "correct")
+  missing <- required[!required %in% names(df)]
+  if (length(missing) > 0) stop("Missing columns: ", paste(missing, collapse=", "))
+
+  if (!is.numeric(df$rt)) stop("'rt' must be numeric.")
+  if (!all(df$correct %in% c(0,1,TRUE,FALSE), na.rm = TRUE))
+    stop("'correct' must be coded 0/1 or TRUE/FALSE")
+  
+  invisible(TRUE)
+}
+##Then at the top of each script:
+  validate_task_df(data)
+}
+```
+
 + 
 + 
 
