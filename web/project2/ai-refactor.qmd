@@ -10,27 +10,78 @@ execute:
   message: true
 ---
 
-Your final step is to create a short online Quarto Report (ai-refactor.qmd) that summarizes what you found. This report should include:
+Summary of re factoring choices
++ Most of my re factoring included getting rid of for loops and replacing them with vectorized code. Getting rid of a for loop in both summarize_behavior and build_participant_wide allowed me to better optimize my code and make it as short and practical as possible. In R, code will automatically loop through rows, therefore, so that others can best read and reproduce my code, I decided to get rid of for loops. Vectorized versions are much shorter and simpler (in my opinion). My third place where I re factored code was in summarize_behavior when I got rid of matrices in the code, and instead, used subset to index by name (instead of position). I did this because when working with large data sets and passing them between peers and colleague, indexing by position can be dangerous, as if one thing gets put out of place, it is easy to move forward analyzing the completely wrong variable Therefore, indexing my name instead makes the code easier to read (you know exactly what variable you're referring to) and safer to use as large data sets are modified and passed along.  
 
-A brief description of the original issues
-A summary of your refactoring choices including what you changed and why you changed it.
+Re factoring #1 in build_participant_wide (for loop into vectorized version)
+```{r}
+##OLD CODE 
+if (FALSE) {
+  rows <- list()
+  for (i in seq_along(files)) {
+   file_name <- files[i]
+   rows[[i]] <- import_and_process(file_name)
+  }
+}
 
-I changed this in order to get rid of the for loop. In this case, the for loop is unnecessary
-  ## because we can use lappy and apply important and process to every single file, automatically "looping"
-  
-  ## through. 
-  # rows <- list()
-  # for (i in seq_along(files)) {
-  #   file_name <- files[i]
-  #   rows[[i]] <- import_and_process(file_name)
-  # }
+##NEW CODE 
+if (FALSE) {
+    rows <- lapply(files, import_and_process)
+}
 
-  rows <- lapply(files, import_and_process)
+```
+ 
+Re factoring #2 in summarize_behavior (for loop into vectorized version)
+```{r}
+
+##OLD CODE 
+if (FALSE) {
+  valid_data_rt$rt_centered <- NA_real_
+  for (i in 1:nrow(valid_data_rt)) {
+  valid_data_rt$rt_centered[i] <- valid_data_rt$rt[i] - mean(valid_data_rt$rt, na.rm = TRUE)
+  }
+}
+
+##NEW CODE
+if (FALSE) {
+  valid_data_rt$rt_centered <- valid_data_rt$rt - mean(valid_data_rt$rt, na.rm = TRUE)
+}
+
+```
+ 
+ 
+ Re factoring #3 in summarize_behvaior (index by name, instead of position) 
+```{r}
+## OLD CODE 
+if (FALSE) {
+  valid_data_rt <- data[data[ , 3] >= 300 & data[ , 3] <= 900 & data[ , 12] == TRUE, ]
+  valid_data_acc <- data[data[ , 3] >= 300 & data[ , 3] <= 900, ]
+}
+
+##NEW CODE 
+if (FALSE) {
+  valid_data_rt <- subset(data, rt >= 300 & rt <= 900 & correct == TRUE)
+  valid_data_acc <- subset(data, rt >= 300 & rt <= 900)
+}
+
+```
 
 
+AI Optimization   
 
-A list or short set of bullet points showing the optimization ideas the AI gave for the unedited project.
-A list or short set of bullet points showing the optimization ideas the AI gave for your refactored version.
+
+Ideas AI gave for unedited project 
++ 
++ 
++ 
+
+
+Ideas AI gave for refactored version 
++ 
++ 
++ 
+
+Comparison section: 
 
 Then write a comparison section: Discuss where your own changes matched the AI’s ideas, where you differed, and what you learned from the comparison. This can include organizational changes, naming conventions, function design, file structure, avoidance of repeated code, or any other structural points the AI highlighted.
 
