@@ -155,14 +155,69 @@ validate_task_df <- function(df) {
 }
 ```
 
-+ 
-+ 
+- Repalce repeated subset(). Instead use a helper function for duplicated RT filtering. Instead of using subset multiple times and then ahvig to repeat your bounds when you call the function, it is helpful to create a new functino inside of summarize_behavior that dictates the bounds. For exmaple, instead of this 
+
+```{r}
+if (FALSE) {
+
+valid_data_rt  <- subset(data, rt >= 300 & rt <= 900 & correct == TRUE)
+valid_data_acc <- subset(data, rt >= 300 & rt <= 900)
+
+summarize_behavior <- function(data, rt_min = 300, rt_max = 900) {}
+}
+```
+
+Use this: 
+```{r}
+if (FALSE) {
+  within_rt_bounds <- function(df) {
+  df[df$rt >= rt_min & df$rt <= rt_max, , drop = FALSE]
+}
+
+valid_data <- within_rt_bounds(data)
+valid_data_rt  <- valid_data[valid_data$correct == TRUE, ]
+valid_data_acc <- valid_data  # accuracy doesn’t filter correct=TRUE
+
+}
+
+```
+
+- Wrap JSON parsing in lapply. Right now, my code to parse the JSON string will only parse the first line, silently ignoring the rest. However, if we were working with data that had multiple lines needing to be parsed,we would want to use lapply inside of score_questionnaire.
+
+Instead of this: 
+```{r}
+
+if (FALSE) {
+responses <- jsonlite::fromJSON(as.character(json_string))
+
+##But in import_and_process.R:
+anxiety_score <- score_questionnaire(questionnaire_df$response)
+}
+```
+
+Replace it with this: 
+```{r}
+
+if (FALSE) {
+  ##Inside score_questionnaire():
+if (length(json_string) > 1) {
+  responses <- unlist(lapply(json_string, function(x) {
+    out <- jsonlite::fromJSON(as.character(x))
+    unlist(out)
+  }))
+} else {
+  responses <- jsonlite::fromJSON(as.character(json_string))
+  responses <- unlist(responses)
+}
+}
+
+```
+
+
 
 Comparison section: 
 
-Then write a comparison section: Discuss where your own changes matched the AI’s ideas, where you differed, and what you learned from the comparison. This can include organizational changes, naming conventions, function design, file structure, avoidance of repeated code, or any other structural points the AI highlighted.
-
-Optional but encouraged: examples You may include small code snippets that show “before vs. after” improvements, as long as you keep them short and focused.
+Some of my own changes matched AI's ideas, but most didn't. In my re factoring, I got rid of manual for loops, and AI did in theirs as well. However, many of the changes AI made did not match. For example, they included that I should only use absolute paths (here:here), instead of relative, which maeks a lot of sense to me when thinking about how others can duplicate my proejcts. AI also gave me a lot of suggestions to remove repeated code by creating mini helper functions that do one little job, but can be used a lot. I had really only thought of having a fwe functions per project, but this AI overview is showing me a lot of different ways you can use functions at all times. I especially liked the idea of putting all of the checks into one function, as I could see how that could get confusing with a large project. I did find it hard to understand a lot fo AI's suggestions, especially in regards to making all of these functions. It was concepts we had learned, but things that I would've never though to put together and that I couldn't fully explain what they did. Overall, I learned that there are a lot of ways to shorten up code and improve workflow, and a lot of this comes with making super modular, seperate code where each block has a specific job. 
 
 
 

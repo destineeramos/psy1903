@@ -233,12 +233,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li></li>
-<li></li>
+<li>Repalce repeated subset(). Instead use a helper function for duplicated RT filtering. Instead of using subset multiple times and then ahvig to repeat your bounds when you call the function, it is helpful to create a new functino inside of summarize_behavior that dictates the bounds. For exmaple, instead of this</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>valid_data_rt  <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, rt <span class="sc">&gt;=</span> <span class="dv">300</span> <span class="sc">&amp;</span> rt <span class="sc">&lt;=</span> <span class="dv">900</span> <span class="sc">&amp;</span> correct <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>valid_data_acc <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, rt <span class="sc">&gt;=</span> <span class="dv">300</span> <span class="sc">&amp;</span> rt <span class="sc">&lt;=</span> <span class="dv">900</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>summarize_behavior <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">rt_min =</span> <span class="dv">300</span>, <span class="at">rt_max =</span> <span class="dv">900</span>) {}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  within_rt_bounds <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  df[df<span class="sc">$</span>rt <span class="sc">&gt;=</span> rt_min <span class="sc">&amp;</span> df<span class="sc">$</span>rt <span class="sc">&lt;=</span> rt_max, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>valid_data <span class="ot">&lt;-</span> <span class="fu">within_rt_bounds</span>(data)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>valid_data_rt  <span class="ot">&lt;-</span> valid_data[valid_data<span class="sc">$</span>correct <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>valid_data_acc <span class="ot">&lt;-</span> valid_data  <span class="co"># accuracy doesn’t filter correct=TRUE</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Wrap JSON parsing in lapply. Right now, my code to parse the JSON string will only parse the first line, silently ignoring the rest. However, if we were working with data that had multiple lines needing to be parsed,we would want to use lapply inside of score_questionnaire.</li>
+</ul>
+<p>Instead of this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(<span class="fu">as.character</span>(json_string))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">##But in import_and_process.R:</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>anxiety_score <span class="ot">&lt;-</span> <span class="fu">score_questionnaire</span>(questionnaire_df<span class="sc">$</span>response)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Replace it with this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">##Inside score_questionnaire():</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(json_string) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  responses <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(json_string, <span class="cf">function</span>(x) {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(<span class="fu">as.character</span>(x))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unlist</span>(out)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  responses <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(<span class="fu">as.character</span>(json_string))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  responses <span class="ot">&lt;-</span> <span class="fu">unlist</span>(responses)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Comparison section:</p>
-<p>Then write a comparison section: Discuss where your own changes matched the AI’s ideas, where you differed, and what you learned from the comparison. This can include organizational changes, naming conventions, function design, file structure, avoidance of repeated code, or any other structural points the AI highlighted.</p>
-<p>Optional but encouraged: examples You may include small code snippets that show “before vs.&nbsp;after” improvements, as long as you keep them short and focused.</p>
+<p>Some of my own changes matched AI’s ideas, but most didn’t. In my re factoring, I got rid of manual for loops, and AI did in theirs as well. However, many of the changes AI made did not match. For example, they included that I should only use absolute paths (here:here), instead of relative, which maeks a lot of sense to me when thinking about how others can duplicate my proejcts. AI also gave me a lot of suggestions to remove repeated code by creating mini helper functions that do one little job, but can be used a lot. I had really only thought of having a fwe functions per project, but this AI overview is showing me a lot of different ways you can use functions at all times. I especially liked the idea of putting all of the checks into one function, as I could see how that could get confusing with a large project. I did find it hard to understand a lot fo AI’s suggestions, especially in regards to making all of these functions. It was concepts we had learned, but things that I would’ve never though to put together and that I couldn’t fully explain what they did. Overall, I learned that there are a lot of ways to shorten up code and improve workflow, and a lot of this comes with making super modular, seperate code where each block has a specific job.</p>
 
 </main>
 <!-- /main column -->
