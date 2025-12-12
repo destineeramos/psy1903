@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -70,12 +105,138 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Your final step is to create a short online Quarto Report (ai-refactor.qmd) that summarizes what you found. This report should include:</p>
-<p>A brief description of the original issues A summary of your refactoring choices including what you changed and why you changed it.</p>
-<p>I changed this in order to get rid of the for loop. In this case, the for loop is unnecessary ## because we can use lappy and apply important and process to every single file, automatically “looping”</p>
-<p>## through. # rows &lt;- list() # for (i in seq_along(files)) { # file_name &lt;- files[i] # rows[[i]] &lt;- import_and_process(file_name) # }</p>
-<p>rows &lt;- lapply(files, import_and_process)</p>
-<p>A list or short set of bullet points showing the optimization ideas the AI gave for the unedited project. A list or short set of bullet points showing the optimization ideas the AI gave for your refactored version.</p>
+<p>Summary of re factoring choices</p>
+<ul>
+<li>Most of my re factoring included getting rid of for loops and replacing them with vectorized code. Getting rid of a for loop in both summarize_behavior and build_participant_wide allowed me to better optimize my code and make it as short and practical as possible. In R, code will automatically loop through rows, therefore, so that others can best read and reproduce my code, I decided to get rid of for loops. Vectorized versions are much shorter and simpler (in my opinion). My third place where I re factored code was in summarize_behavior when I got rid of matrices in the code, and instead, used subset to index by name (instead of position). I did this because when working with large data sets and passing them between peers and colleague, indexing by position can be dangerous, as if one thing gets put out of place, it is easy to move forward analyzing the completely wrong variable Therefore, indexing my name instead makes the code easier to read (you know exactly what variable you’re referring to) and safer to use as large data sets are modified and passed along.</li>
+</ul>
+<p>Re factoring #1 in build_participant_wide (for loop into vectorized version)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##OLD CODE </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  rows <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(files)) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   file_name <span class="ot">&lt;-</span> files[i]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   rows[[i]] <span class="ot">&lt;-</span> <span class="fu">import_and_process</span>(file_name)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">##NEW CODE </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    rows <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, import_and_process)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Re factoring #2 in summarize_behavior (for loop into vectorized version)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">##OLD CODE </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  valid_data_rt<span class="sc">$</span>rt_centered <span class="ot">&lt;-</span> <span class="cn">NA_real_</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(valid_data_rt)) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  valid_data_rt<span class="sc">$</span>rt_centered[i] <span class="ot">&lt;-</span> valid_data_rt<span class="sc">$</span>rt[i] <span class="sc">-</span> <span class="fu">mean</span>(valid_data_rt<span class="sc">$</span>rt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="do">##NEW CODE</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  valid_data_rt<span class="sc">$</span>rt_centered <span class="ot">&lt;-</span> valid_data_rt<span class="sc">$</span>rt <span class="sc">-</span> <span class="fu">mean</span>(valid_data_rt<span class="sc">$</span>rt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Re factoring #3 in summarize_behvaior (index by name, instead of position)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## OLD CODE </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  valid_data_rt <span class="ot">&lt;-</span> data[data[ , <span class="dv">3</span>] <span class="sc">&gt;=</span> <span class="dv">300</span> <span class="sc">&amp;</span> data[ , <span class="dv">3</span>] <span class="sc">&lt;=</span> <span class="dv">900</span> <span class="sc">&amp;</span> data[ , <span class="dv">12</span>] <span class="sc">==</span> <span class="cn">TRUE</span>, ]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  valid_data_acc <span class="ot">&lt;-</span> data[data[ , <span class="dv">3</span>] <span class="sc">&gt;=</span> <span class="dv">300</span> <span class="sc">&amp;</span> data[ , <span class="dv">3</span>] <span class="sc">&lt;=</span> <span class="dv">900</span>, ]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">##NEW CODE </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  valid_data_rt <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, rt <span class="sc">&gt;=</span> <span class="dv">300</span> <span class="sc">&amp;</span> rt <span class="sc">&lt;=</span> <span class="dv">900</span> <span class="sc">&amp;</span> correct <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  valid_data_acc <span class="ot">&lt;-</span> <span class="fu">subset</span>(data, rt <span class="sc">&gt;=</span> <span class="dv">300</span> <span class="sc">&amp;</span> rt <span class="sc">&lt;=</span> <span class="dv">900</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>AI Optimization</p>
+<p>Ideas AI gave for unedited project</p>
+<ul>
+<li><p>Always use here:here and standardize file paths. Points out situations where I use relative paths, instead of absolute paths. This breaks the code if someone else trys to reproduce it. By using only absolute paths (here:here), it helps reduce path-related errors (which Chat says is “the #1 beginner issue”)</p></li>
+<li><p>Instead of repeated subsetting, use mini functions to acheive the same goals.This helps remove repetitve code across files and makes the code more readable for beginners. Chat recommends instead of doing code like this</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  valid <span class="ot">&lt;-</span> data[data<span class="sc">$</span>rt <span class="sc">&gt;=</span> rt_min <span class="sc">&amp;</span> data<span class="sc">$</span>rt <span class="sc">&lt;=</span> rt_max, ]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>to do this instead</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  subset_valid_rt <span class="ot">&lt;-</span> <span class="cf">function</span>(df, rt_min, rt_max) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  df[df<span class="sc">$</span>rt <span class="sc">&gt;=</span> rt_min <span class="sc">&amp;</span> df<span class="sc">$</span>rt <span class="sc">&lt;=</span> rt_max, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Use lapply instead of manual for loops. Chat recommends to use the apply family (e.g.&nbsp;lapply) instead of for loops to make the code shorter, less error-prone, and more consistent.</li>
+</ul>
+<p>It recommends that instead of this</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (file <span class="cf">in</span> files) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  summary <span class="ot">&lt;-</span> <span class="fu">summarize_behavior</span>(df)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  result_list[[file]] <span class="ot">&lt;-</span> summary</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  summaries <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(path) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(path)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate_iat_df</span>(df)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize_behavior</span>(df)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>summaries_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, summaries)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ideas AI gave for re factored version</p>
+<ul>
+<li>Move all of the different warnings and checks into one function. This helps a beginner looking at your code to see exactly what checks are done throughout without gong and searching for them. It also ensure no duplication and allows you to easily add checks in one place.</li>
+</ul>
+<p>Instead of this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">##I currently duplicate many checks:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(data<span class="sc">$</span>rt)) { ... }</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">all</span>(required_cols <span class="sc">%in%</span> <span class="fu">names</span>(df))) { ... }</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.logical</span>(data<span class="sc">$</span>correct)) { ... }</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Chat recommends that hte function be created like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">##In a file called validate_task_df.R:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="cn">FALSE</span>) {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>validate_task_df <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  required <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"trialType"</span>,<span class="st">"block"</span>,<span class="st">"rt"</span>,<span class="st">"response"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"expectedCategory"</span>,<span class="st">"expectedCategoryAsDisplayed"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"correct"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  missing <span class="ot">&lt;-</span> required[<span class="sc">!</span>required <span class="sc">%in%</span> <span class="fu">names</span>(df)]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(missing) <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="fu">stop</span>(<span class="st">"Missing columns: "</span>, <span class="fu">paste</span>(missing, <span class="at">collapse=</span><span class="st">", "</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(df<span class="sc">$</span>rt)) <span class="fu">stop</span>(<span class="st">"'rt' must be numeric."</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">all</span>(df<span class="sc">$</span>correct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"'correct' must be coded 0/1 or TRUE/FALSE"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(<span class="cn">TRUE</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">##Then at the top of each script:</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">validate_task_df</span>(data)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<p>Comparison section:</p>
 <p>Then write a comparison section: Discuss where your own changes matched the AI’s ideas, where you differed, and what you learned from the comparison. This can include organizational changes, naming conventions, function design, file structure, avoidance of repeated code, or any other structural points the AI highlighted.</p>
 <p>Optional but encouraged: examples You may include small code snippets that show “before vs.&nbsp;after” improvements, as long as you keep them short and focused.</p>
 
