@@ -1,0 +1,40 @@
+---
+title: "AI Refactor Project 2 "
+author: "Destinee Ramos"
+format:
+  html:
+    fig-number: true
+execute:
+  echo: true
+  warning: true
+  message: true
+---
+
+Your final step is to create a short online Quarto Report (ai-refactor.qmd) that summarizes what you found. This report should include:
+
+A brief description of the original issues
+A summary of your refactoring choices including what you changed and why you changed it.
+
+I changed this in order to get rid of the for loop. In this case, the for loop is unnecessary
+  ## because we can use lappy and apply important and process to every single file, automatically "looping"
+  
+  ## through. 
+  # rows <- list()
+  # for (i in seq_along(files)) {
+  #   file_name <- files[i]
+  #   rows[[i]] <- import_and_process(file_name)
+  # }
+
+  rows <- lapply(files, import_and_process)
+
+
+
+A list or short set of bullet points showing the optimization ideas the AI gave for the unedited project.
+A list or short set of bullet points showing the optimization ideas the AI gave for your refactored version.
+
+Then write a comparison section: Discuss where your own changes matched the AI’s ideas, where you differed, and what you learned from the comparison. This can include organizational changes, naming conventions, function design, file structure, avoidance of repeated code, or any other structural points the AI highlighted.
+
+Optional but encouraged: examples You may include small code snippets that show “before vs. after” improvements, as long as you keep them short and focused.
+
+
+
